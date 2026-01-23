@@ -61,6 +61,7 @@ def get_devices(access_token):
         response.raise_for_status()
 
         # print(f"Response: {response.json()}")
+        
         return response.json().get("devices", [])
     except requests.exceptions.RequestException as e:
         print(f"Error fetching devices: {e}")
@@ -126,13 +127,15 @@ def main():
     print("--- Nest Thermostat Query (SDM API) ---")
     
     # 1. Authenticate
-    print("Refreshing access token...")
+    # print("Refreshing access token...")
+
     token = get_access_token()
     if not token:
         return
 
     # 2. Get Data
-    print("Querying devices...")
+    # print("Querying devices...")
+
     devices = get_devices(token)
     
     if not devices:
@@ -146,16 +149,16 @@ def main():
             found_thermostat = True
             data = parse_thermostat_data(device)
             
-            print(f"\nDevice: {data['name']}")
-            print(f"--------------------------------")
-            print(f"Temperature: {data['temperature_f']}°F ({data['temperature_c']}°C)")
-            print(f"Humidity:    {data['humidity']}%")
-            print(f"System Mode: {data['mode']}")
-            print(f"HVAC Status: {data['hvac_status']}")
-            print(f"Connectivity:{data['connectivity']}")
-            print(f"Fan Mode:    {data['fan_timer_mode']}")
-            print(f"Eco Mode:    {data['eco_mode']}")
-            print(f"--------------------------------")
+            print(f"")
+            print(f"Temperature:  {data['temperature_f']}°F ({data['temperature_c']}°C)")
+            print(f"Humidity:     {data['humidity']}%")
+            print(f"HVAC Status:  {data['hvac_status']}")
+            print(f"Connectivity: {data['connectivity']}")
+            print(f"System Mode:  {data['mode']}")
+            print(f"Fan Mode:     {data['fan_timer_mode']}")
+            print(f"Eco Mode:     {data['eco_mode']}")
+            print(f"")
+            print(f"---------------------------------------")
 
     if not found_thermostat:
         print("\nNo thermostats found in your account.")
